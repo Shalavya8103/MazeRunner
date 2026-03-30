@@ -11,7 +11,7 @@ CELL_SIZE = 28
 
 class Renderer:
     def __init__(self, game_state):
-        pygame.init()
+        # pygame.init()
         self.gs= game_state
         self.width=self.gs.cols* CELL_SIZE
         self.height=self.gs.rows*CELL_SIZE
@@ -60,14 +60,14 @@ class Renderer:
     def close(self):
         pygame.quit()
 
-from maze_env import GameState
-gs = GameState(rows=21, cols=21)
-renderer = Renderer(gs)
-running = True
-while running:
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            running = False
-    renderer.draw()
-    renderer.tick()
-renderer.close()
+# from maze_env import GameState
+# gs = GameState(rows=21, cols=21)
+# renderer = Renderer(gs)
+# running = True
+# while running:
+#     for event in pygame.event.get():
+#         if event.type == pygame.QUIT:
+#             running = False
+#     renderer.draw()
+#     renderer.tick()
+# renderer.close()

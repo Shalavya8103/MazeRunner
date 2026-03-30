@@ -14,11 +14,11 @@ class MazeGenerator:
         for dr, dc in dirs:
             newr= r+dr
             newc=c+dc
-            if 0<=newr<self.rows and 0<=newc<self.cols and self.grid[newr][newc] == 1 and (newr, newc) not in frontier:
+            if 1<=newr<self.rows-1 and 1<=newc<self.cols-1 and self.grid[newr][newc] == 1 and (newr, newc) not in frontier:
                 frontier.append((newr,newc))
 
     def _prims(self):
-        self.grid[1][1]=0
+        self.grid[1][1] = 0
         frontier=[]
         self._frontier(1,1,frontier)
         while len(frontier)!=0:
@@ -28,16 +28,17 @@ class MazeGenerator:
             open_cells=[]
             for i,j in dirs:
                 nr,nc=fr+i, fc+j
-                if 0<=nr<self.rows and 0<=nc<self.cols:
+                if 1<=nr<self.rows and 1<=nc<self.cols:
                     if self.grid[nr][nc]==0:
                         open_cells.append((i,j))
             if len(open_cells)== 1:
                 i,j=open_cells[0]
                 self.grid[fr + i//2][fc + j//2]=0
-                self.grid[fr][fc]=0 
+                self.grid[fr][fc] = 0
                 self._frontier(fr, fc, frontier)
 
-    def _add_loops(self, prob=0.6):
+
+    def _add_loops(self, prob=0.75):
         for r in range(1,self.rows-1):
             for c in range(1,self.cols-1):
                 if self.grid[r][c]==1:
@@ -76,11 +77,27 @@ class GameState:
 
 
     def place_entities(self):
-        positions= random.sample(self.open_cells,6)
-        self.runner_pos=positions[0]
-        self.chaser_pos= positions[1]
-        self.checkpoints =list(positions[2:5])
-        self.exit_pos=positions[5]
+        mid_r=self.rows//2
+        mid_c= self.cols//2
+        q1= [c for c in self.open_cells if c[0]<mid_r and c[1]<mid_c]
+        q2= [c for c in self.open_cells if c[0]<mid_r and c[1]>=mid_c]
+        q3= [c for c in self.open_cells if c[0]>=mid_r and c[1]<mid_c]
+        q4= [c for c in self.open_cells if c[0]>=mid_r and c[1]>=mid_c]
+        cp1=random.choice(q1)
+        cp2=random.choice(q2)
+        cp3=random.choice(q3)
+        ex=random.choice(q4)
+        min_dist= (self.rows+self.cols)//4
+        while True:
+            runner=random.choice(self.open_cells)
+            chaser=random.choice(self.open_cells)
+            dist = abs(runner[0]-chaser[0]) + abs(runner[1]-chaser[1]) 
+            if dist>=min_dist:
+                break
+        self.runner_pos=runner
+        self.chaser_pos= chaser
+        self.checkpoints =[cp1,cp2,cp3]
+        self.exit_pos=ex
         self.collected=[False, False,False]
 
 
@@ -141,11 +158,11 @@ class GameState:
         new_state.winner=self.winner
         return new_state
 
-    # def __repr__(self):
-    #     return (f"Runner: {self.runner_pos}, Chaser: {self.chaser_pos}, "
-    #             f"Checkpoints: {self.checkpoints}, Collected: {self.collected}, "
-    #             f"Exit: {self.exit_pos}, Steps: {self.step_count}, Winner: {self.winner}")
+    def __repr__(self):
+        return (f"Runner: {self.runner_pos}, Chaser: {self.chaser_pos}, "
+                f"Checkpoints: {self.checkpoints}, Collected: {self.collected}, "
+                f"Exit: {self.exit_pos}, Steps: {self.step_count}, Winner: {self.winner}")
 
-if __name__ == "__main__":
-    gs = GameState(rows=21, cols=21)
-    print(gs)
+# if __name__ == "__main__":
+#     gs = GameState(rows=21, cols=21)
+#     print(gs)
