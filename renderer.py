@@ -59,15 +59,3 @@ class Renderer:
         self.clock.tick(fps)
     def close(self):
         pygame.quit()
-
-# from maze_env import GameState
-# gs = GameState(rows=21, cols=21)
-# renderer = Renderer(gs)
-# running = True
-# while running:
-#     for event in pygame.event.get():
-#         if event.type == pygame.QUIT:
-#             running = False
-#     renderer.draw()
-#     renderer.tick()
-# renderer.close()

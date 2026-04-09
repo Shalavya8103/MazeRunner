@@ -100,7 +100,6 @@ class GameState:
         self.exit_pos=ex
         self.collected=[False, False,False]
 
-
     def valid_move(self, pos):
         r,c=pos
         if 0<= r<self.rows and 0<=c<self.cols:
@@ -162,7 +161,46 @@ class GameState:
         return (f"Runner: {self.runner_pos}, Chaser: {self.chaser_pos}, "
                 f"Checkpoints: {self.checkpoints}, Collected: {self.collected}, "
                 f"Exit: {self.exit_pos}, Steps: {self.step_count}, Winner: {self.winner}")
+    
+FIXED_MAZE_LAYOUT = np.array([
+    [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+    [1,0,0,0,1,0,0,0,1,0,0,0,1,0,0,0,1,0,0,0,1],
+    [1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1],
+    [1,0,1,0,0,0,1,0,0,0,1,0,0,0,1,0,0,0,1,0,1],
+    [1,0,1,1,1,1,1,1,1,0,1,1,1,1,1,1,1,1,1,0,1],
+    [1,0,0,0,1,0,0,0,1,0,0,0,1,0,0,0,0,0,1,0,1],
+    [1,0,1,0,1,0,1,0,1,1,1,0,1,0,1,1,1,0,1,0,1],
+    [1,0,0,0,0,0,1,0,0,0,1,0,0,0,1,0,0,0,0,0,1],
+    [1,0,1,1,1,0,1,1,1,0,1,1,1,0,1,0,1,1,1,0,1],
+    [1,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,1],
+    [1,1,0,1,1,1,1,1,1,1,0,1,1,1,1,1,1,1,0,1,1],
+    [1,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,1],
+    [1,0,1,0,1,0,1,1,1,0,1,1,1,0,1,0,1,0,1,0,1],
+    [1,0,1,0,0,0,1,0,0,0,1,0,0,0,1,0,0,0,1,0,1],
+    [1,0,1,1,1,0,1,0,1,1,1,1,1,0,1,1,1,1,1,0,1],
+    [1,0,0,0,0,0,0,0,1,0,0,0,1,0,0,0,0,0,1,0,1],
+    [1,0,1,0,1,1,1,0,1,0,1,0,1,0,1,1,1,0,1,0,1],
+    [1,0,1,0,1,0,0,0,0,0,1,0,0,0,1,0,0,0,1,0,1],
+    [1,0,1,0,1,0,1,1,1,0,1,0,1,1,1,0,1,0,1,0,1],
+    [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+    [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+], dtype=int)
 
-# if __name__ == "__main__":
-#     gs = GameState(rows=21, cols=21)
-#     print(gs)
+class FixedGameState(GameState):
+    def __init__(self):
+        super().__init__(maze=FIXED_MAZE_LAYOUT.copy())
+    
+    #If we want to fix checkpoints as well
+    # def place_entities(self):
+    #     self.checkpoints= [(1,1),(1,17),(17,1)]
+    #     self.exit_pos= (17,17)
+    #     self.collected= [False,False,False]
+    #     min_dist= (self.rows+self.cols)//4
+    #     while True:
+    #         runner= random.choice(self.open_cells)
+    #         chaser= random.choice(self.open_cells)
+    #         dist= abs(runner[0]-chaser[0])+abs(runner[1]-chaser[1])
+    #         if dist>=min_dist:
+    #             break
+    #     self.runner_pos= runner
+    #     self.chaser_pos= chaser
