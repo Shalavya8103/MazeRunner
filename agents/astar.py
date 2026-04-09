@@ -65,19 +65,6 @@ def eastar(maze, start, goal, chaser_pos, danger_rad=4):
                     heapq.heappush(heap,(f,(nr,nc)))
     return None
 
-# if __name__ == "__main__":
-#     import numpy as np
-#     import sys
-#     import os
-#     sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-#     from maze_env import GameState
-    
-#     gs = GameState(rows=21, cols=21)
-#     next_step = astar(gs.maze, gs.runner_pos, gs.checkpoints[0])
-#     print(f"Runner at: {gs.runner_pos}")
-#     print(f"First checkpoint at: {gs.checkpoints[0]}")
-#     print(f"Next step: {next_step}")
-
             
 
 

@@ -72,14 +72,3 @@ def chaser_move(state,hist=[]):
     if best_move is None:
         best_move=chaser_move(state,[])
     return best_move
-
-# if __name__ == "__main__":
-#     import sys
-#     import os
-#     sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-#     from maze_env import GameState
-    
-#     gs = GameState(rows=21, cols=21)
-#     print(f"Chaser at: {gs.chaser_pos}")
-#     move = chaser_move(gs)
-#     print(f"Chaser best move: {move}")
